@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset=utf-8 />
+<title>Basic Drag and Drop</title>
+<style>
+#dropzone {
+  min-height: 100px;
+  width: 200px;
+  border: 3px dashed #ccc;
+  margin: 10px;
+  padding: 10px;
+}
+p {
+  margin: 3px 0;
+}
+</style>
+</head>
+<body>
+  <div id="dropzone">Drop your image</div>
+  
+  <div id="showzone"></div>
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"charset="utf-8"></script>
+
+<script type="text/javascript" charset="utf-8">
+$(function() {
+    
+    /* We cannot use $.bind() since jQuery does not normalize the native events. */
+    $('#dropzone')
+        .get(0)
+        .addEventListener('drop', aa, false);
+
+    $('#dropzone')
+        .get(0)
+        .addEventListener('dragenter', function(event) { 
+                $('#dropzone').css("background-color", "#ffc"); 
+            }, false);
+
+    $('#dropzone')
+        .get(0)
+        .addEventListener('dragexit', function(event) { 
+                $('#dropzone').css("background-color", "#fff"); 
+            }, false);
+
+    $('#dropzone')
+        .get(0)
+        .addEventListener('dragover', function(event) { 
+                event.preventDefault(); 
+            }, false);
+
+    function aa(event) {
+		data = event.dataTransfer;
+		console.log(event);
+		console.log(event.rangeParent.baseURI);
+		event.stopPropagation();
+		file = event.rangeParent.baseURI;
+		file_list = "";
+		
+
+		baseURI = event.rangeParent.baseURI.substr(0,(file.length - 10));
+		console.log(">>"+baseURI);
+		for (var i = 0; i < data.files.length; i++) {
+	     	var file = data.files[i];
+			console.log(file);
+			file_list = file_list + "<br/>" + "<img src='"+baseURI+file+"/"+fileName+"'></img><br/>" + file.fileName;
+	    }
+		console.log(file_list);
+		$('#showzone').html(file_list);
+		
+	}
+	
+
+	
+	
+	
+    
+   
+});
+</script>
+</body>
+</html>
